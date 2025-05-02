@@ -98,18 +98,13 @@ show_menu() {
   ╚═╝     ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
   ${NC}"
 
-##########################################################################################
-#                                                                                        
-#                🚀 THIS SCRIPT IS PROUDLY CREATED BY **GA CRYPTO**! 🚀                 
-#                                                                                        
-#   🌐 Join our revolution in decentralized networks and crypto innovation!               
-#                                                                                        
-# 📢 Stay updated:                                                                      
-#     • Follow us on Telegram: https://t.me/GaCryptOfficial                             
-#     • Follow us on X: https://x.com/GACryptoO                                         
-##########################################################################################
+  echo -e "${CYAN}┌───────────────────────────────────────────────────────┐"
+  echo -e "│    🚀 ${YELLOW}Proudly created by ${RED}GA CRYPTO${YELLOW} - Decentralized Networks   │"
+  echo -e "│       ${BLUE}Telegram: ${CYAN}https://t.me/GaCryptOfficial${BLUE}                    │"
+  echo -e "│       ${BLUE}Twitter/X: ${CYAN}https://x.com/GACryptoO${BLUE}                       │"
+  echo -e "└───────────────────────────────────────────────────────┘${NC}"
 
-  echo -e "${YELLOW}1. Install Pre-Requirements${NC}"
+  echo -e "\n${YELLOW}1. Install Pre-Requirements${NC}"
   echo -e "${YELLOW}2. Install Fleek CLI & Login${NC}"
   echo -e "${YELLOW}3. Create a Fleek Project${NC}"
   echo -e "${YELLOW}4. Set Up a Simple Page${NC}"
