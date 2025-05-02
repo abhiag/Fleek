@@ -97,6 +97,18 @@ show_menu() {
   ██║     ███████╗███████╗███████╗██║  ██╗
   ╚═╝     ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
   ${NC}"
+
+##########################################################################################
+#                                                                                        
+#                🚀 THIS SCRIPT IS PROUDLY CREATED BY **GA CRYPTO**! 🚀                 
+#                                                                                        
+#   🌐 Join our revolution in decentralized networks and crypto innovation!               
+#                                                                                        
+# 📢 Stay updated:                                                                      
+#     • Follow us on Telegram: https://t.me/GaCryptOfficial                             
+#     • Follow us on X: https://x.com/GACryptoO                                         
+##########################################################################################
+
   echo -e "${YELLOW}1. Install Pre-Requirements${NC}"
   echo -e "${YELLOW}2. Install Fleek CLI & Login${NC}"
   echo -e "${YELLOW}3. Create a Fleek Project${NC}"
