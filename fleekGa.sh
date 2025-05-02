@@ -1,72 +1,111 @@
 #!/bin/bash
 
-# Fleek CLI Automated Setup Script
-# -----------------------------------------------
-# Installs prerequisites, Fleek CLI, and deploys a demo site
+# Fleek CLI Menu-Driven Setup
+# ---------------------------
 
-# Colors and formatting
+# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
-BOLD='\033[1m'
 
-# Function to check command success
-check_success() {
-  if [ $? -ne 0 ]; then
-    echo -e "${RED}✖ Failed: $1${NC}"
-    exit 1
-  else
-    echo -e "${GREEN}✓ Success: $1${NC}"
-  fi
+# Variables
+PROJECT_NAME=""
+SITE_DIR="$HOME/fleek-quick-start"
+
+# Check if command exists
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
 }
 
-echo -e "\n${YELLOW}🚀 Starting Fleek CLI Setup...${NC}"
-echo "-----------------------------------------------"
+# Install Pre-Requirements
+install_requirements() {
+  echo -e "\n${YELLOW}📦 Installing Node.js and npm...${NC}"
+  if ! command_exists node; then
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+  fi
+  echo -e "${GREEN}✓ Node.js and npm ready${NC}"
+}
 
-# Section 1: Check for Node.js
-echo -e "\n${YELLOW}📦 Checking Node.js installation...${NC}"
-if ! command -v node &> /dev/null; then
-  echo -e "${YELLOW}Node.js not found. Installing...${NC}"
-  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-  check_success "Node.js installed"
-else
-  echo -e "${GREEN}Node.js already installed.$(tput sgr0)"
-fi
+# Install Fleek CLI and login
+install_fleek() {
+  echo -e "\n${YELLOW}⚡ Installing Fleek CLI...${NC}"
+  sudo npm install -g @fleek-platform/cli
+  echo -e "\n${BLUE}🔑 Please complete browser authentication...${NC}"
+  fleek login
+}
 
-# Section 2: Install Fleek CLI
-echo -e "\n${YELLOW}⚡ Installing Fleek CLI...${NC}"
-sudo npm install -g @fleek-platform/cli
-check_success "Fleek CLI installed"
+# Create Project
+create_project() {
+  echo -e "\n${YELLOW}🏗️ Creating Fleek Project${NC}"
+  read -p "Enter project name: " PROJECT_NAME
+  fleek projects create --name "$PROJECT_NAME"
+}
 
-# Section 3: Fleek Login
-echo -e "\n${YELLOW}🔑 Initiating Fleek Login...${NC}"
-echo -e "${BOLD}⚠️  MANUAL STEP REQUIRED: Complete browser authentication${NC}"
-fleek login
-check_success "Login successful"
+# Setup Demo Page
+setup_page() {
+  echo -e "\n${YELLOW}🌐 Setting up demo page at $SITE_DIR${NC}"
+  mkdir -p "$SITE_DIR"
+  cd "$SITE_DIR" || exit
+  echo "<!DOCTYPE html>
+<html>
+<head>
+    <title>My Fleek Site</title>
+    <style>body{font-family:sans-serif;text-align:center;margin-top:50px}</style>
+</head>
+<body>
+    <h1>Hello from Fleek!</h1>
+    <p>Deployed via Fleek CLI</p>
+</body>
+</html>" > index.html
+  echo -e "${GREEN}✓ Demo page created${NC}"
+}
 
-# Section 4: Create Project
-echo -e "\n${YELLOW}🏗️  Creating Fleek Project...${NC}"
-read -p "Enter project name: " project_name
-fleek projects create --name "$project_name"
-check_success "Project created"
+# Deploy Site
+deploy_site() {
+  echo -e "\n${YELLOW}🚀 Initializing and deploying site${NC}"
+  cd "$SITE_DIR" || exit
+  fleek sites init <<< $'.\nno\n1\n'
+  fleek sites deploy
+  echo -e "\n${GREEN}✓ Deployment initiated!${NC}"
+  echo -e "Check status with: ${BLUE}fleek sites list${NC}"
+}
 
-# Section 5: Setup Demo Site
-echo -e "\n${YELLOW}🌐 Setting up demo site...${NC}"
-mkdir -p ~/fleek-quick-start
-cd ~/fleek-quick-start
-echo "Hello World from Fleek!" > index.html
-check_success "Demo files created"
+# Main Menu
+show_menu() {
+  clear
+  echo -e "${BLUE}
+  ███████╗██╗     ███████╗███████╗██╗  ██╗
+  ██╔════╝██║     ██╔════╝██╔════╝██║ ██╔╝
+  █████╗  ██║     █████╗  █████╗  █████╔╝ 
+  ██╔══╝  ██║     ██╔══╝  ██╔══╝  ██╔═██╗ 
+  ██║     ███████╗███████╗███████╗██║  ██╗
+  ╚═╝     ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
+  ${NC}"
+  echo -e "${YELLOW}1. Install Pre-Requirements${NC}"
+  echo -e "${YELLOW}2. Install Fleek CLI & Login${NC}"
+  echo -e "${YELLOW}3. Create a Fleek Project${NC}"
+  echo -e "${YELLOW}4. Set Up a Simple Page${NC}"
+  echo -e "${YELLOW}5. Initialize & Deploy Site${NC}"
+  echo -e "${RED}0. Exit${NC}"
+  echo -en "\n${BLUE}Select an option (0-5): ${NC}"
+}
 
-# Section 6: Deploy Site
-echo -e "\n${YELLOW}🚀 Deploying to Fleek...${NC}"
-fleek sites init <<< $'.\nno\n'
-fleek sites deploy
-check_success "Deployment initiated"
-
-# Completion
-echo -e "\n${GREEN}🎉 Fleek setup completed successfully!${NC}"
-echo -e "Your site is now deploying - check status with:"
-echo -e "${BOLD}fleek sites list${NC}"
-echo -e "\n${YELLOW}Note: Deployment may take 2-5 minutes to go live.${NC}"
+# Execute menu
+while true; do
+  show_menu
+  read -r choice
+  case $choice in
+    1) install_requirements ;;
+    2) install_fleek ;;
+    3) create_project ;;
+    4) setup_page ;;
+    5) deploy_site ;;
+    0) echo -e "\n${GREEN}Exiting...${NC}"; exit 0 ;;
+    *) echo -e "\n${RED}Invalid option!${NC}" ;;
+  esac
+  echo -en "\n${BLUE}Press Enter to continue...${NC}"
+  read -r
+done
