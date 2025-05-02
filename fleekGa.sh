@@ -99,9 +99,9 @@ show_menu() {
   ${NC}"
 
   echo -e "${CYAN}┌───────────────────────────────────────────────────────┐"
-  echo -e "│    🚀 ${YELLOW}Proudly created by ${RED}GA CRYPTO${YELLOW} - Decentralized Networks   │"
-  echo -e "│       ${BLUE}Telegram: ${CYAN}https://t.me/GaCryptOfficial${BLUE}                    │"
-  echo -e "│       ${BLUE}Twitter/X: ${CYAN}https://x.com/GACryptoO${BLUE}                       │"
+  echo -e "│    🚀 ${YELLOW}Proudly created by ${RED}GA CRYPTO${YELLOW} - Decentralized Networks"
+  echo -e "│       ${BLUE}Telegram: ${CYAN}https://t.me/GaCryptOfficial${BLUE}                  "
+  echo -e "│       ${BLUE}Twitter/X: ${CYAN}https://x.com/GACryptoO${BLUE}                      "
   echo -e "└───────────────────────────────────────────────────────┘${NC}"
 
   echo -e "\n${YELLOW}1. Install Pre-Requirements${NC}"
