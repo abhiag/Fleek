@@ -67,10 +67,23 @@ setup_page() {
 deploy_site() {
   echo -e "\n${YELLOW}🚀 Initializing and deploying site${NC}"
   cd "$SITE_DIR" || exit
-  fleek sites init <<< $'.\nno\n1\n'
+  
+  # Automated responses to fleek sites init:
+  # 1. Site name (uses project name + "-site")
+  # 2. Directory (.)
+  # 3. Build command (no)
+  # 4. Config format (1 for JSON)
+  fleek sites init << ANSWERS
+${PROJECT_NAME}-site
+.
+no
+1
+ANSWERS
+
   fleek sites deploy
   echo -e "\n${GREEN}✓ Deployment initiated!${NC}"
   echo -e "Check status with: ${BLUE}fleek sites list${NC}"
+  echo -e "Config saved to: ${BLUE}$SITE_DIR/fleek.config.json${NC}"
 }
 
 # Main Menu
