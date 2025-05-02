@@ -56,7 +56,7 @@ setup_page() {
     <style>body{font-family:sans-serif;text-align:center;margin-top:50px}</style>
 </head>
 <body>
-    <h1>Hello from Fleek!</h1>
+    <h1>Hello from GA-Crypto!</h1>
     <p>Deployed via Fleek CLI</p>
 </body>
 </html>" > index.html
